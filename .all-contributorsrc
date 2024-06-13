@@ -1,0 +1,25 @@
+{
+  "projectName": "create-starknet-app",
+  "projectOwner": "ankit875",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "gitmoji",
+  "contributors": [
+    {
+      "login": "ankit875",
+      "name": "Ankit Agrawal",
+      "avatar_url": "",
+      "profile": "https://github.com/ankit875",
+      "contributions": [
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 4,
+  "linkToUsage": true
+}
