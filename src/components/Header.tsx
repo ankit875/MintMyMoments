@@ -19,7 +19,7 @@ export const Header = () => {
         <Link href="/" className="p-4">
           <Heading className="leading-2">Mint My Moment</Heading>
         </Link>
-        <Link href="/dashboard" className="py-4">
+        <Link href="/mintdashboard" className="py-4">
           Dashboard
         </Link>
         <Link href={GITHUB_CONTRACTS_URL} target="_blank" className="py-4">
