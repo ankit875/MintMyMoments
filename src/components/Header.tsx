@@ -8,7 +8,7 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 const GITHUB_CONTRACTS_URL =
   "https://github.com/ankit875/MintMyMoments";
 
-const FEEDBACK_FORM_URL = "https://forms.gle/7FBvga7qCtP6iCKr8";
+const FEEDBACK_FORM_URL = "";
 
 export const Header = () => {
   const { chain } = useNetwork();

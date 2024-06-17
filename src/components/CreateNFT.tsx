@@ -14,6 +14,7 @@ import {
   Tooltip,
 } from "@radix-ui/themes";
 import { InfoCircledIcon, StarFilledIcon } from "@radix-ui/react-icons";
+import { handleUploadImage, previewImage } from "@/utils/supabase-client";
 
 export const CreateNFT = () => {
   const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ export const CreateNFT = () => {
     transferable: false,
   });
   const [preview, setPreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "tokenImage") {
@@ -51,14 +53,13 @@ export const CreateNFT = () => {
     console.log(formData);
   };
 
-  const onPreviewImage = () => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setPreview(reader?.result as string);
-    };
-    if (formData?.tokenImage) {
-      reader.readAsDataURL(formData?.tokenImage);
-    }
+  const onUpload = async (e) => {
+    e.preventDefault();
+    if (!formData.tokenImage) return;
+    setUploading(true);
+    const url = await handleUploadImage(formData.tokenImage);
+    setPreview(url);
+    setUploading(false);
   };
 
   return (
@@ -129,14 +130,19 @@ export const CreateNFT = () => {
                 <StarFilledIcon color="red" width={4} height={4} />
               </Flex>
               <Form.Control asChild>
-                <input
-                  type="file"
-                  name="tokenImage"
-                  onChange={handleChange}
-                  accept="image/png, image/jpeg"
-                  required
-                  color="bronze"
-                />
+                <Flex gap="2" align={"center"} justify={"between"}>
+                  <input
+                    type="file"
+                    name="tokenImage"
+                    onChange={handleChange}
+                    accept="image/png, image/jpeg"
+                    required
+                    color="bronze"
+                  />
+                  <Button variant="outline" onClick={onUpload}>
+                    {uploading ? "Uploading..." : "Upload Image"}
+                  </Button>
+                </Flex>
               </Form.Control>
             </Form.Field>
             <Form.Field name="networkType">
@@ -202,11 +208,6 @@ export const CreateNFT = () => {
               </Flex>
             </Form.Field>
             <Flex gap="3" justify={"end"}>
-              <Form.Submit>
-                <Button variant="outline" onClick={onPreviewImage}>
-                  Preview
-                </Button>
-              </Form.Submit>
               <Form.Submit asChild>
                 <Button variant="classic">Create New NFT</Button>
               </Form.Submit>
