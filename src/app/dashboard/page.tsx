@@ -47,38 +47,6 @@ export default function Dashboard() {
   return (
     <Container className="mx-auto mt-10 flex flex-col">
       <CreateNFT />
-      {/* <Grid columns="3" gap="3" mt="6">
-        {communities.map(
-          ({ community_id, title = "", description, contract_address }) => (
-            <Card key={community_id}>
-              <Flex
-                direction="column"
-                justify="center"
-                align="center"
-                gap="2"
-                onClick={() => router.push(`/dashboard/${contract_address}`)}
-              >
-                <Avatar
-                  fallback={title.charAt(0).toLocaleUpperCase()}
-                  size="6"
-                />
-                <Heading size="7" highContrast>
-                  {title}
-                </Heading>
-                <Text size="3">{description}</Text>
-              </Flex>
-              <Link
-                href={`${VOYAGER_BASE_ADDRESS}/contract/${contract_address}`}
-                target="_blank"
-                className="mx-auto mt-6 block text-center"
-                mt="4"
-              >
-                View on Voyager
-              </Link>
-            </Card>
-          )
-        )}
-      </Grid> */}
       {loadingContent}
     </Container>
   );

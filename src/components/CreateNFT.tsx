@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { ReactElement, useState } from "react";
+import { useState } from "react";
 import * as Form from "@radix-ui/react-form";
 import {
   Button,
@@ -14,7 +14,6 @@ import {
   Tooltip,
 } from "@radix-ui/themes";
 import { InfoCircledIcon, StarFilledIcon } from "@radix-ui/react-icons";
-import Mintdashboard from "@/app/mintdashboard/page";
 
 export const CreateNFT = () => {
   const [formData, setFormData] = useState({
@@ -215,7 +214,6 @@ export const CreateNFT = () => {
           </Flex>
         </Form.Root>
       </div>
-      {/* <Mintdashboard /> */}
       {preview && (
         <Flex align={"center"} style={{ marginRight: 20 }}>
           <Card style={{ left: "50%", width: 300, height: 400 }}>

@@ -1,24 +1,24 @@
 import { NextRequest } from "next/server";
 
-const IMAGE_BASE_URL = "https://create-starknet-app.xyz/img/";
+const IMAGE_BASE_URL = "/public/img/";
 
 export function GET(req: NextRequest) {
   const data = {
-    name: "Dodgeball #",
-    description: "DodgeBall for Bloberty, our dear onchain fishes!",
+    name: "Mint My Moment #",
+    description: "Minting your moment with NFTs.",
     image: IMAGE_BASE_URL,
     attributes: [
       {
-        trait_type: "Material",
-        value: "Bronze",
+        trait_type: "Memory",
+        value: "Friend's Birthday",
       },
       {
         trait_type: "Size",
         value: "Large",
       },
       {
-        trait_type: "Durability",
-        value: "High",
+        trait_type: "Occasion",
+        value: "Birthday",
       },
     ],
   };
