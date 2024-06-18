@@ -2,7 +2,7 @@
 
 import { Button, Flex, TextField } from "@radix-ui/themes";
 import { useMemo, useState } from "react";
-import dynamicNFTAbi from "@/abis/dynamicNFT.json";
+import dynamicNFTAbi from "@/abis/DynamicNFT.json";
 import { CONTRACT_DETAILS } from "@/contract-config";
 import {
   useAccount,
