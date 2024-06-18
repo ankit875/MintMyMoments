@@ -1,8 +1,6 @@
 "use client";
 
-import {
-  Button, Flex, TextField
-} from "@radix-ui/themes";
+import { Button, Flex, TextField } from "@radix-ui/themes";
 import { useMemo, useState } from "react";
 import dynamicNFTAbi from "@/abis/dynamicNFT.json";
 import { CONTRACT_DETAILS } from "@/contract-config";
@@ -38,12 +36,12 @@ const Mintdashboard = () => {
 
   const { writeAsync, data: mintData } = useContractWrite({ calls });
 
-  console.log("contract", contract, mintData, testAddress);
+  console.log("contract", contract, mintData, testAddress,data);
   return (
     <div style={{ top: 40, position: "relative" }}>
       <Flex direction="column" gap="3">
         {status == "disconnected" && <p>{status}</p>}
-        {receiverAddress && <h1>Balance NFT: {parseFloat(data)}</h1>}
+        {/* {receiverAddress && <h1>Balance NFT: {data ? parseFloat(data): 0}</h1>} */}
         <p>Account: {address}</p>
         <p>Welcome to the dashboard</p>
         <TextField.Root

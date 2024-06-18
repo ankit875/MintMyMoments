@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from "@radix-ui/themes";
 import { InfoCircledIcon, StarFilledIcon } from "@radix-ui/react-icons";
-import { handleUploadImage, previewImage } from "@/utils/supabase-client";
+import { handleUploadImage } from "@/utils/supabase-client";
 
 export const CreateNFT = () => {
   const [formData, setFormData] = useState({
@@ -29,14 +29,14 @@ export const CreateNFT = () => {
   });
   const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
     if (name === "tokenImage") {
-      const file = files[0];
-      if (file.type !== "image/png" || file.type === "image/jpeg") {
+      const file = files?.[0];
+      if (file?.type === "image/jpeg") {
         setFormData({
           ...formData,
-          [name]: files[0],
+          [name as string]: files?.[0],
         });
       }
     } else {
@@ -47,13 +47,13 @@ export const CreateNFT = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     // Handle form submission, e.g., send the data to an API
     console.log(formData);
   };
 
-  const onUpload = async (e) => {
+  const onUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (!formData.tokenImage) return;
     setUploading(true);
@@ -65,7 +65,7 @@ export const CreateNFT = () => {
   return (
     <Grid columns="2" gap="8" mr="0">
       <div style={{ top: 40, position: "relative" }}>
-        <Form.Root onSubmit={handleSubmit}>
+        <Form.Root onSubmit={() => handleSubmit}>
           <Flex direction="column" gap="3">
             <Callout.Root>
               <Callout.Icon>
@@ -116,7 +116,7 @@ export const CreateNFT = () => {
                 <TextArea
                   name="tokenDescription"
                   value={formData.tokenDescription}
-                  onChange={handleChange}
+                  onChange={() => handleChange}
                   required
                   color="bronze"
                   variant="soft"
@@ -139,7 +139,7 @@ export const CreateNFT = () => {
                     required
                     color="bronze"
                   />
-                  <Button variant="outline" onClick={onUpload}>
+                  <Button variant="outline" onClick={() => onUpload}>
                     {uploading ? "Uploading..." : "Upload Image"}
                   </Button>
                 </Flex>

@@ -9,16 +9,12 @@ export function GET(req: NextRequest) {
     image: IMAGE_BASE_URL,
     attributes: [
       {
-        trait_type: "Memory",
-        value: "Friend's Birthday",
+        trait_type: "No. Of Mint",
+        value: "1000",
       },
       {
-        trait_type: "Size",
-        value: "Large",
-      },
-      {
-        trait_type: "Occasion",
-        value: "Birthday",
+        trait_type: "Claim Limit",
+        value: "10",
       },
     ],
   };

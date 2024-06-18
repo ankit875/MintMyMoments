@@ -1,23 +1,11 @@
 "use client";
 
 import {
-  Avatar,
-  Card,
-  Container,
-  Flex,
-  Grid,
-  Heading,
-  Link,
-  Text,
+  Container
 } from "@radix-ui/themes";
-import { useEffect, useState } from "react";
-import { getCommunities } from "@/utils/supabase-client";
-import { Community } from "@/types";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "react-hot-toast";
-import { CreateCommunity } from "@/components/CreateCommunity";
 import { CardShimmer } from "@/components/common/CardShimmer";
-import { VOYAGER_BASE_ADDRESS } from "@/utils/constants";
 import { CreateNFT } from "@/components/CreateNFT";
 
 export default function Dashboard() {
