@@ -29,14 +29,16 @@ export const CreateNFT = () => {
   });
   const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, files } = e.target;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
     if (name === "tokenImage") {
-      const file = files?.[0];
+      const file = (e.target as HTMLInputElement).files?.[0];
       if (file?.type === "image/jpeg") {
         setFormData({
           ...formData,
-          [name as string]: files?.[0],
+          [name as string]: file,
         });
       }
     } else {
@@ -53,7 +55,7 @@ export const CreateNFT = () => {
     console.log(formData);
   };
 
-  const onUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onUpload = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (!formData.tokenImage) return;
     setUploading(true);
@@ -116,7 +118,7 @@ export const CreateNFT = () => {
                 <TextArea
                   name="tokenDescription"
                   value={formData.tokenDescription}
-                  onChange={() => handleChange}
+                  onChange={handleChange}
                   required
                   color="bronze"
                   variant="soft"
@@ -139,7 +141,7 @@ export const CreateNFT = () => {
                     required
                     color="bronze"
                   />
-                  <Button variant="outline" onClick={() => onUpload}>
+                  <Button variant="outline" onClick={onUpload}>
                     {uploading ? "Uploading..." : "Upload Image"}
                   </Button>
                 </Flex>
