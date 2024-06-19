@@ -10,10 +10,13 @@ import {
   useContractRead,
   useContractWrite,
 } from "@starknet-react/core";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const Mintdashboard = () => {
+  const router = useRouter();
   const { account, address, status } = useAccount();
-  const [receiverAddress, setReceiverAddress] = useState("");
+  const [receiverAddress, setReceiverAddress] = useState<string>("");
   const testAddress = CONTRACT_DETAILS?.goerli?.DnftTokenAddress?.address;
   const { contract } = useContract({
     abi: dynamicNFTAbi,
@@ -34,9 +37,14 @@ const Mintdashboard = () => {
     watch: true,
   });
 
-  const { writeAsync, data: mintData } = useContractWrite({ calls });
-
-  console.log("contract", contract, mintData, testAddress,data);
+  const { writeAsync, data: mintData, error } = useContractWrite({ calls });
+  if (error) {
+    toast.error(error?.message);
+  } else if (mintData?.transaction_hash) {
+    toast.success("NFT minted successfully");
+    router.push("/");
+  }
+  console.log("contract", contract, mintData, testAddress, data);
   return (
     <div style={{ top: 40, position: "relative" }}>
       <Flex direction="column" gap="3">
