@@ -9,95 +9,38 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      communities: {
+      nft_collections: {
         Row: {
-          community_id: number
-          contract_address: string
-          created_at: string
-          description: string | null
-          eligibility_token: string
-          owner_address: string | null
-          title: string
-          txn_hash: string
-        }
+          id: number;
+          name: string;
+          symbol: string;
+          description: string;
+          image_path: string;
+          type: string;
+          network_type: string;
+          mint_supply: number;
+        };
         Insert: {
-          community_id?: number
-          contract_address: string
-          created_at?: string
-          description?: string | null
-          eligibility_token: string
-          owner_address?: string | null
-          title?: string
-          txn_hash: string
-        }
+          id: number;
+          name: string;
+          symbol: string;
+          description: string;
+          image_path: string;
+          type: string;
+          network_type: string;
+          mint_supply: number;
+        };
         Update: {
-          community_id?: number
-          contract_address?: string
-          created_at?: string
-          description?: string | null
-          eligibility_token?: string
-          owner_address?: string | null
-          title?: string
-          txn_hash?: string
-        }
-        Relationships: []
-      }
-      community_proposals: {
-        Row: {
-          contract_address: string
-          created_at: string
-          details: string
-          details_hash: string
-          earliest: string | null
-          latest: string | null
-          no_votes: number | null
-          no_votes_title: string
-          proposal_id: number
-          title: string
-          txn_hash: string
-          yes_votes: number | null
-          yes_votes_title: string
-        }
-        Insert: {
-          contract_address: string
-          created_at?: string
-          details: string
-          details_hash: string
-          earliest?: string | null
-          latest?: string | null
-          no_votes?: number | null
-          no_votes_title: string
-          proposal_id?: number
-          title: string
-          txn_hash: string
-          yes_votes?: number | null
-          yes_votes_title: string
-        }
-        Update: {
-          contract_address?: string
-          created_at?: string
-          details?: string
-          details_hash?: string
-          earliest?: string | null
-          latest?: string | null
-          no_votes?: number | null
-          no_votes_title?: string
-          proposal_id?: number
-          title?: string
-          txn_hash?: string
-          yes_votes?: number | null
-          yes_votes_title?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "community_proposals_contract_address_fkey"
-            columns: ["contract_address"]
-            isOneToOne: false
-            referencedRelation: "communities"
-            referencedColumns: ["contract_address"]
-          }
-        ]
-      }
+          id?: number;
+          name?: string;
+          symbol?: string;
+          description?: string;
+          image_path?: string;
+          type?: string;
+          network_type?: string;
+          mint_supply?: number;
+        };
+      };
     }
     Views: {
       [_ in never]: never

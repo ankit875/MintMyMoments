@@ -7,14 +7,14 @@ import {
   Card,
   Flex,
   Grid,
-  Switch,
-  Text,
-  TextArea,
+  Switch, TextArea,
   TextField,
-  Tooltip,
+  Tooltip
 } from "@radix-ui/themes";
 import { InfoCircledIcon, StarFilledIcon } from "@radix-ui/react-icons";
 import { handleUploadImage } from "@/utils/supabase-client";
+import { createCollectionNFT } from "@/utils/helpers";
+import toast from "react-hot-toast";
 
 export const CreateNFT = () => {
   const [formData, setFormData] = useState({
@@ -49,17 +49,54 @@ export const CreateNFT = () => {
     }
   };
 
-  const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    if (!preview) {
+      e.preventDefault();
+    }
     // Handle form submission, e.g., send the data to an API
-    console.log(formData);
+    console.log("formData", formData);
+    const { data, error } = await createCollectionNFT({
+      id: Math.floor(Math.random() * 10000),
+      name: formData.tokenName,
+      symbol: formData.tokenSymbol,
+      description: formData.tokenDescription,
+      image_path: preview || "",
+      type: formData.tokenType,
+      network_type: formData.networkType,
+      mint_supply: parseInt(formData.tokenSupply),
+    });
+    if (error) {
+      console.error("Error inserting data:", error);
+      toast.error(error.message || "Failed to create NFT collection");
+    } else {
+      toast.success("NFT collection created successfully");
+      // Clear the form
+      setFormData({
+        tokenSymbol: "",
+        tokenName: "",
+        tokenDescription: "",
+        tokenImage: null,
+        networkType: "StarkNet",
+        tokenType: "ERC721",
+        tokenSupply: "",
+        transferable: false,
+      });
+    }
   };
 
-  const onUpload = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const onUpload = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
     if (!formData.tokenImage) return;
     setUploading(true);
-    const url = await handleUploadImage(formData.tokenImage);
+    const { url, error } = await handleUploadImage(formData.tokenImage);
+    if (error) {
+      toast.error(error.message || "Failed to upload image");
+      setUploading(false);
+      return;
+    }
     setPreview(url);
     setUploading(false);
   };
@@ -67,7 +104,7 @@ export const CreateNFT = () => {
   return (
     <Grid columns="2" gap="8" mr="0">
       <div style={{ top: 40, position: "relative" }}>
-        <Form.Root onSubmit={() => handleSubmit}>
+        <Form.Root onSubmit={handleSubmit}>
           <Flex direction="column" gap="3">
             <Callout.Root>
               <Callout.Icon>
@@ -134,10 +171,11 @@ export const CreateNFT = () => {
               <Form.Control asChild>
                 <Flex gap="2" align={"center"} justify={"between"}>
                   <input
+                    id="tokenImage"
                     type="file"
                     name="tokenImage"
                     onChange={handleChange}
-                    accept="image/png, image/jpeg"
+                    accept="image/jpeg"
                     required
                     color="bronze"
                   />
@@ -227,10 +265,6 @@ export const CreateNFT = () => {
                 alt="Token Preview"
                 style={{ width: "200px", height: "200px" }}
               />
-
-              <Text>
-                <strong>Max Supply:</strong> {formData.tokenSupply}
-              </Text>
               <p>{formData.tokenDescription}</p>
             </Flex>
           </Card>
