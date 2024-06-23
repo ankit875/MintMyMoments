@@ -7,16 +7,22 @@ import {
   Card,
   Flex,
   Grid,
-  Switch, TextArea,
+  Switch,
+  TextArea,
   TextField,
-  Tooltip
+  Tooltip,
 } from "@radix-ui/themes";
 import { InfoCircledIcon, StarFilledIcon } from "@radix-ui/react-icons";
 import { handleUploadImage } from "@/utils/supabase-client";
 import { createCollectionNFT } from "@/utils/helpers";
 import toast from "react-hot-toast";
+import dynamicAbi from "@/abis/DynamicNFT.json";
+import { useAccount } from "@starknet-react/core";
+import { CONTRACT_DETAILS } from "@/contract-config";
+import { CallData } from "starknet";
 
 export const CreateNFT = () => {
+  const { address, account, status } = useAccount();
   const [formData, setFormData] = useState({
     tokenSymbol: "",
     tokenName: "",
@@ -50,38 +56,63 @@ export const CreateNFT = () => {
   };
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    if (!address || !account || !formData.tokenImage) return;
+
     e.preventDefault();
     if (!preview) {
       e.preventDefault();
     }
     // Handle form submission, e.g., send the data to an API
     console.log("formData", formData);
-    const { data, error } = await createCollectionNFT({
-      id: Math.floor(Math.random() * 10000),
-      name: formData.tokenName,
-      symbol: formData.tokenSymbol,
-      description: formData.tokenDescription,
-      image_path: preview || "",
-      type: formData.tokenType,
-      network_type: formData.networkType,
-      mint_supply: parseInt(formData.tokenSupply),
+    const dynamicNftdata = new CallData(dynamicAbi);
+    const constructorData = dynamicNftdata.compile("constructor", {
+      owner: address,
+      claim_limit_per_addrees: 10,
     });
-    if (error) {
-      console.error("Error inserting data:", error);
-      toast.error(error.message || "Failed to create NFT collection");
-    } else {
-      toast.success("NFT collection created successfully");
-      // Clear the form
-      setFormData({
-        tokenSymbol: "",
-        tokenName: "",
-        tokenDescription: "",
-        tokenImage: null,
-        networkType: "StarkNet",
-        tokenType: "ERC721",
-        tokenSupply: "",
-        transferable: false,
+    
+    const a: any =
+        window.starknet?.account ?? window.starknet_braavos?.account;
+      const deployResponse = await a.deploy({
+        classHash: CONTRACT_DETAILS.goerli.DnftTokenAddress.classhash,
+        constructorCalldata: constructorData,
       });
+
+    if (deployResponse?.transaction_hash && deployResponse?.contract_address) {
+      const { transaction_hash, contract_address } = deployResponse;
+      const [contract_addr] = contract_address;
+      console.log(
+        "deployResponse",
+        transaction_hash,
+        contract_addr,
+        contract_address
+      );
+      try {
+        await createCollectionNFT({
+          id: Math.floor(Math.random() * 10000),
+          name: formData.tokenName,
+          symbol: formData.tokenSymbol,
+          description: formData.tokenDescription,
+          image_path: preview || "",
+          type: formData.tokenType,
+          network_type: formData.networkType,
+          mint_supply: parseInt(formData.tokenSupply),
+        });
+        toast.success("NFT deployed successfully");
+        setFormData({
+          tokenSymbol: "",
+          tokenName: "",
+          tokenDescription: "",
+          tokenImage: null,
+          networkType: "StarkNet",
+          tokenType: "ERC721",
+          tokenSupply: "",
+          transferable: false,
+        });
+        setPreview(null);
+      } catch (e) {
+        console.error("Error inserting data:", e);
+        toast.error("Failed to deploy. check console for more logs!");
+      }
     }
   };
 
@@ -89,7 +120,10 @@ export const CreateNFT = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    if (!formData.tokenImage) return;
+    if (!formData.tokenImage) {
+      toast.error("Please select an image to upload");
+      return;
+    }
     setUploading(true);
     const { url, error } = await handleUploadImage(formData.tokenImage);
     if (error) {
@@ -165,7 +199,7 @@ export const CreateNFT = () => {
 
             <Form.Field name="tokenImage">
               <Flex gap="2" align={"center"} justify={"start"}>
-                <Form.Label>Token Asset (PNG Format) </Form.Label>
+                <Form.Label>Token Asset (JPG Format) </Form.Label>
                 <StarFilledIcon color="red" width={4} height={4} />
               </Flex>
               <Form.Control asChild>
@@ -249,7 +283,9 @@ export const CreateNFT = () => {
             </Form.Field>
             <Flex gap="3" justify={"end"}>
               <Form.Submit asChild>
-                <Button variant="classic">Create New NFT</Button>
+                <Button variant="classic" disabled={status === "disconnected"}>
+                  Create New NFT
+                </Button>
               </Form.Submit>
             </Flex>
           </Flex>

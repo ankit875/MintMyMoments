@@ -1,12 +1,12 @@
-export type Community = {
-  community_id: number;
-  created_at: string;
-  description: string | null;
-  owner_address: string | null;
-  title: string;
-  contract_address: string;
-  txn_hash: string;
-  eligibility_token: string;
+export type CreateCollectionNFTInput = {
+  id: number;
+  name: string;
+  symbol: string;
+  description: string;
+  image_path: string;
+  type: string;
+  network_type: string;
+  mint_supply: number;
 };
 
 export type CommunityProposal = {

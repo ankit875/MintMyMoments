@@ -1,21 +1,26 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
+import { getImage, supabaseClient } from "@/utils/supabase-client";
 
-const IMAGE_BASE_URL = "https://mint-my-moments.vercel.app/img/";
+// const IMAGE_BASE_URL = "https://mint-my-moments.vercel.app/img/";
 
-export function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
+ // get call to get the nft collection
+  const selectedData =await getImage(1);
   const data = {
-    name: "Mint My Moment #",
-    description: "Minting your moment with NFTs.",
-    image: IMAGE_BASE_URL,
+    name: selectedData?.name,
+    description:selectedData?.description,
+    image: selectedData?.image_path,
     attributes: [],
   };
   const id = parseInt(req.nextUrl.searchParams.get("id")!);
   const payload = data;
   payload.name += ` #${id}`;
   if (id < 7) {
-    payload.image = `${IMAGE_BASE_URL}${id}.jpg`;
+    payload.image = `${selectedData?.image_path}${id}.jpg`;
   } else {
-    payload.image = `${IMAGE_BASE_URL}default.jpg`;
+    payload.image = `${selectedData?.image_path}default.jpg`;
   }
   return Response.json(payload);
 }

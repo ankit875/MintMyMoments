@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 
-import { CommunityProposal } from "../types";
+import { CommunityProposal, CreateCollectionNFTInput } from "../types";
 
 import { Database } from "@/types_db";
 import { cache } from "react";
@@ -23,17 +23,16 @@ export const handleUploadImage = async (file: File) => {
   return { url: dataUrl?.publicUrl, error };
 };
 
-// export const getProposal = cache(
-//   async (proposal_id: number): Promise<CommunityProposal> => {
-//     const { data, error } = await supabaseClient
-//       .from("community_proposals")
-//       .select("*")
-//       .eq("proposal_id", proposal_id);
-//     if (error || !data) {
-//       console.log(error.message);
-//       throw new Error("failed to fetch data");
-//     }
-//     if (data.length === 0) return {} as CommunityProposal;
-//     return data[0];
-//   }
-// );
+export const getImage = cache(async (id: number): Promise<CreateCollectionNFTInput> => { 
+  const { data, error } = await supabaseClient
+    .from("nft_collections")
+    .select("*")
+    .order("id", { ascending: true }).single();
+  console.log("data", data);
+  if (error || !data) {
+    console.log(error.message);
+    throw new Error("failed to fetch data");
+  }
+  if (!data) return {} as CreateCollectionNFTInput;
+  return data;
+});

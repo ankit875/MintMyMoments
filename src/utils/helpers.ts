@@ -1,16 +1,8 @@
 import { shortString } from "starknet";
 import { supabaseClient } from "./supabase-client";
+import { CreateCollectionNFTInput } from "@/types";
 
-type CreateCollectionNFTInput = {
-  id: number;
-  name: string;
-  symbol: string;
-  description: string;
-  image_path: string;
-  type: string;
-  network_type: string;
-  mint_supply: number;
-};
+
 
 // type NewCommunityInput = {
 //   title: string;
