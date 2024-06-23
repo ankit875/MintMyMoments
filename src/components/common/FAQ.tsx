@@ -4,51 +4,45 @@ const supported_features = [
     id: 1,
     question: "What is Mint My Moment?",
     answer:
-      "Decentralized Voting Platform on Starknet. It supports Time-Bounded voting, Permissioned Voting, Token Weighted Voting",
+      "Mint My Moment transforms memorable digital experiences into dynamic, evolving NFTs that are personalized, tradeable, and securely recorded on the blockchain, offering transparent transactions and potential royalties.",
   },
   {
     id: 2,
-    question: "Time-Bounded Voting",
+    question: "Target Users",
     answer:
-      "Our platform introduces time-bound voting, adding an element of urgency and efficiency to the decision-making process. Users will have a designated timeframe to cast their votes, promoting swift and timely resolutions.",
+      "Tech-savvy consumers and businesses, including coffee shop patrons, real estate buyers, and art collectors, who are interested in dynamic, engaging NFTs.",
   },
   {
     id: 3,
-    question: "Permissioned Voting",
+    question: "What Types of ERC standards are supported?",
     answer:
-      "Our platform implements permissioned voting. Only users with the required credentials (tokens) will be eligible to participate in specific votes, ensuring that only authorized individuals contribute to decision-making",
+      "Currently we are supported ERC721 standard. We are planning to support more standards ie. ERC1155 in future.",
   },
   {
     id: 4,
-    question: "Token Weighted Voting",
+    question: "What Types of Images are supported?",
     answer:
-      " The use of tokens as a voting mechanism adds a layer of fairness and representation. Users holding a certain number of tokens will be granted a corresponding number of votes. This token-per-vote system ensures that individuals with higher stakes have a proportional influence on the outcome.",
-  },
-  {
-    id: 5,
-    question: "User-Friendly Interface",
-    answer:
-      "Our user interface is designed to be intuitive and user-friendly, ensuring that even individuals unfamiliar with blockchain technology can easily navigate the platform. This accessibility encourages widespread participation in the decision-making process",
+      "Currently we are supporting JPEG image format. We are planning to support more formats in future.",
   },
 ];
 
 const planned_features = [
   {
     id: 1,
-    question: "User Hooks",
+    question: "Trait information on the NFT image",
     answer:
-      "Users can opt for email notifications for voting results when voting is over. User can also invite another user via email to vote on proposal.",
+      "It includes dynamic attributes that change based on real-world interactions, such as customer engagement or property development milestones. These traits enhance the collectible's uniqueness and provide a visual representation of its evolution over time",
   },
   {
     id: 2,
-    question: "Arbitrary Code Execution",
+    question: "Dynamic Traits base on User activity",
     answer:
-      "Users can define a external internal contract to be called once voting ends. For example, sending funds to a dedicated party based on proposal output.",
+      "It include attributes that evolve with customer interactions, such as frequency of visits, purchases, or engagement in promotional events. These traits visually represent and reward user participation",
   },
   {
     id: 3,
-    question: "Support different-different gated models",
-    answer: "User can add whitelist addresses for voting.",
+    question: "Dashboard for the collection management",
+    answer: "it will offer users an intuitive interface to track, manage, and interact with their dynamic NFTs. It provides real-time updates on trait evolution, transaction history, and personalized insights based on user activity",
   },
 ];
 

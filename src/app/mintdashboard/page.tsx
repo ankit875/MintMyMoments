@@ -46,12 +46,14 @@ const Mintdashboard = () => {
   }
   console.log("contract", contract, mintData, testAddress, data);
   return (
-    <div style={{ top: 40, position: "relative" }}>
+    <div style={{ top: 40, position: "relative", padding: 20 }}>
       <Flex direction="column" gap="3">
-        {status == "disconnected" && <p>{status}</p>}
-        {/* {receiverAddress && <h1>Balance NFT: {data ? parseFloat(data): 0}</h1>} */}
-        <p>Account: {address}</p>
-        <p>Welcome to the dashboard</p>
+        <Flex direction={'column'} align={'center'}>
+          {status == "disconnected" ? <p>{status}</p>
+            : <p>Connected</p>}
+          <p>Account: {address}</p>
+          <p>Welcome to the dashboard</p>
+        </Flex>
         <TextField.Root
           placeholder="Enter address"
           value={receiverAddress}

@@ -35,6 +35,7 @@ export const CreateNFT = () => {
   });
   const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [isTxPending, setIsTxPending] = useState(false);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -64,6 +65,7 @@ export const CreateNFT = () => {
     }
     // Handle form submission, e.g., send the data to an API
     console.log("formData", formData);
+    setIsTxPending(true);
     const dynamicNftdata = new CallData(dynamicAbi);
     const constructorData = dynamicNftdata.compile("constructor", {
       owner: address,
@@ -113,6 +115,7 @@ export const CreateNFT = () => {
         console.error("Error inserting data:", e);
         toast.error("Failed to deploy. check console for more logs!");
       }
+      setIsTxPending(false);
     }
   };
 
@@ -283,7 +286,7 @@ export const CreateNFT = () => {
             </Form.Field>
             <Flex gap="3" justify={"end"}>
               <Form.Submit asChild>
-                <Button variant="classic" disabled={status === "disconnected"}>
+                <Button variant="classic" disabled={status === "disconnected" || isTxPending}>
                   Create New NFT
                 </Button>
               </Form.Submit>
