@@ -71,9 +71,11 @@ export const CreateNFT = () => {
       owner: address,
       claim_limit_per_addrees: 10,
     });
+    function getAccount(obj: any, prop: string): any {
+      return obj?.[prop]?.account ?? null;
+    }
     
-    const a: any =
-        window.starknet?.account ?? window.starknet_braavos?.account;
+      const a = getAccount(window, 'starknet') ?? getAccount(window, 'starknet_braavos');
       const deployResponse = await a.deploy({
         classHash: CONTRACT_DETAILS.goerli.DnftTokenAddress.classhash,
         constructorCalldata: constructorData,
@@ -286,7 +288,10 @@ export const CreateNFT = () => {
             </Form.Field>
             <Flex gap="3" justify={"end"}>
               <Form.Submit asChild>
-                <Button variant="classic" disabled={status === "disconnected" || isTxPending}>
+                <Button
+                  variant="classic"
+                  disabled={status === "disconnected" || isTxPending}
+                >
                   Create New NFT
                 </Button>
               </Form.Submit>
