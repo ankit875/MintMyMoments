@@ -42,7 +42,8 @@ const planned_features = [
   {
     id: 3,
     question: "Dashboard for the collection management",
-    answer: "it will offer users an intuitive interface to track, manage, and interact with their dynamic NFTs. It provides real-time updates on trait evolution, transaction history, and personalized insights based on user activity",
+    answer:
+      "it will offer users an intuitive interface to track, manage, and interact with their dynamic NFTs. It provides real-time updates on trait evolution, transaction history, and personalized insights based on user activity",
   },
 ];
 
@@ -62,7 +63,7 @@ export const FAQ = () => {
               >
                 <Text
                   className="text-base font-medium md:col-span-5"
-                  color="crimson"
+                  color="yellow"
                 >
                   {question}
                 </Text>
@@ -86,7 +87,7 @@ export const FAQ = () => {
                 >
                   <Text
                     className="text-base font-medium md:col-span-5"
-                    color="crimson"
+                    color="yellow"
                   >
                     {question}
                   </Text>
